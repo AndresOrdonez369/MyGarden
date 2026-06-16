@@ -92,7 +92,7 @@
     $("#campo").appendChild(btn);
   }
   function actualizarConteo() {
-    $("#conteo").textContent = flores.length + (flores.length === 1 ? " flor" : " flores");
+    var mias = flores.filter(function (f) { return (f.author || "") === yo; }).length; $("#conteo").textContent = mias + (mias === 1 ? " tuya" : " tuyas") + " · " + flores.length + " en total";
   }
 
   // ---------- modal plantar ----------
