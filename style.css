@@ -1,0 +1,256 @@
+/* =========================================================
+   Nuestro Jardín · estilos
+   Ambiente: día soleado · responsive · sin librerías
+   ========================================================= */
+
+:root{
+  --cielo-1:#3ea0ff;
+  --cielo-2:#6cbcff;
+  --cielo-3:#a9defb;
+  --cielo-4:#e8f8ff;
+  --verde-back:#a4dd6f;
+  --verde-mid:#7ecb4f;
+  --verde-front:#5cb43c;
+  --tinta:#3a2f4a;
+  --rosa:#ff5ba0;
+  --rosa-osc:#e23f86;
+  --blando:#fff;
+  --sombra: 0 14px 40px rgba(60,80,120,.22);
+  --radio:22px;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;}
+body{
+  font-family:"Comfortaa",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color:var(--tinta);
+  background:var(--cielo-3);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* ---------------- ESCENA ---------------- */
+.escena{
+  position:fixed; inset:0;
+  height:100svh; width:100vw;
+  overflow:hidden;
+  background:linear-gradient(180deg,
+    var(--cielo-1) 0%, var(--cielo-2) 32%, var(--cielo-3) 62%, var(--cielo-4) 100%);
+}
+
+/* Sol */
+.sol{
+  position:absolute; top:7%; right:9%;
+  width:clamp(72px,15vw,150px); aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,
+    #fffdf0 0%, #ffe98a 38%, #ffd23f 62%, rgba(255,210,63,0) 70%);
+  filter:drop-shadow(0 0 34px rgba(255,220,90,.85));
+  animation:brilloSol 7s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes brilloSol{0%,100%{filter:drop-shadow(0 0 26px rgba(255,220,90,.7))}50%{filter:drop-shadow(0 0 46px rgba(255,220,90,.95))}}
+
+/* Nubes */
+.nube{
+  position:absolute; left:0;
+  height:clamp(24px,4.5vw,44px); width:clamp(86px,18vw,180px);
+  background:#fff; border-radius:999px;
+  box-shadow:0 10px 16px rgba(110,160,215,.16);
+  opacity:.95; pointer-events:none;
+}
+.nube::before,.nube::after{content:""; position:absolute; background:#fff; border-radius:50%;}
+.nube::before{width:55%; height:160%; top:-62%; left:13%;}
+.nube::after{width:42%; height:135%; top:-42%; right:14%;}
+.nube--1{top:13%; transform:scale(1);   animation:deriva 64s linear infinite;}
+.nube--2{top:25%; transform:scale(.72); animation:deriva 92s linear infinite; animation-delay:-30s; opacity:.85;}
+.nube--3{top:8%;  transform:scale(.9);  animation:deriva 78s linear infinite; animation-delay:-55s;}
+@keyframes deriva{from{margin-left:-24vw}to{margin-left:124vw}}
+
+/* Colinas */
+.colinas{position:absolute; bottom:0; left:0; width:100%; height:46svh; min-height:240px;}
+.colina--back{fill:var(--verde-back);}
+.colina--mid{fill:var(--verde-mid);}
+.colina--front{fill:var(--verde-front);}
+
+/* ---------------- CAMPO / FLORES ---------------- */
+.campo{position:absolute; inset:0; pointer-events:none;}
+.flor{
+  position:absolute;
+  transform-origin:50% 100%;
+  cursor:pointer; pointer-events:auto;
+  border:0; background:none; padding:0; margin:0;
+  animation:balanceo var(--dur,5s) ease-in-out var(--delay,0s) infinite;
+  will-change:transform;
+  -webkit-tap-highlight-color:transparent;
+}
+.flor .brote{display:block; transform-origin:50% 100%; animation:brotar .7s cubic-bezier(.2,1.3,.4,1) both;}
+.flor:hover .brote{transform:scale(1.07);}
+.flor:focus-visible{outline:none;}
+.flor:focus-visible .brote{filter:drop-shadow(0 0 6px rgba(255,255,255,.95));}
+.flor svg{display:block; width:100%; height:auto; overflow:visible;
+  filter:drop-shadow(0 6px 6px rgba(40,70,40,.18));}
+@keyframes balanceo{0%,100%{transform:rotate(-2.4deg)}50%{transform:rotate(2.4deg)}}
+@keyframes brotar{0%{transform:translateY(10px) scale(.15); opacity:0}60%{transform:translateY(0) scale(1.08); opacity:1}100%{transform:scale(1)}}
+
+/* ---------------- BARRA SUPERIOR ---------------- */
+.barra{
+  position:fixed; top:0; left:0; right:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; padding:max(12px,env(safe-area-inset-top)) 14px 0;
+}
+.pildora{
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.86); backdrop-filter:blur(8px);
+  padding:9px 15px; border-radius:999px; font-size:14px; font-weight:600;
+  box-shadow:0 6px 18px rgba(60,90,130,.16);
+}
+.pildora .punto{opacity:.4;}
+.pildora #conteo{font-weight:500; opacity:.8;}
+.iconbtn{
+  width:42px; height:42px; border-radius:50%; border:0; cursor:pointer;
+  background:rgba(255,255,255,.86); backdrop-filter:blur(8px);
+  font-size:18px; color:var(--tinta);
+  box-shadow:0 6px 18px rgba(60,90,130,.16);
+}
+.iconbtn:active{transform:scale(.94);}
+
+/* ---------------- BOTÓN PLANTAR (FAB) ---------------- */
+.fab{
+  position:fixed; z-index:40; left:50%; transform:translateX(-50%);
+  bottom:max(20px,env(safe-area-inset-bottom));
+  display:inline-flex; align-items:center; gap:9px;
+  padding:15px 26px; border:0; border-radius:999px; cursor:pointer;
+  font-family:inherit; font-size:clamp(15px,4vw,17px); font-weight:700; color:#fff;
+  background:linear-gradient(180deg,#ff7ab4,#ff4f97);
+  box-shadow:0 12px 28px rgba(255,79,151,.42), inset 0 1px 0 rgba(255,255,255,.5);
+  animation:flotar 4s ease-in-out infinite;
+}
+.fab:active{transform:translateX(-50%) scale(.96);}
+.fab-icono{font-size:1.1em;}
+@keyframes flotar{0%,100%{margin-bottom:0}50%{margin-bottom:5px}}
+
+/* ---------------- OVERLAYS ---------------- */
+.overlay{
+  position:fixed; inset:0; z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  padding:20px;
+  background:rgba(40,55,80,.34); backdrop-filter:blur(5px);
+  animation:aparecer .25s ease both;
+}
+.overlay--solido{
+  background:linear-gradient(180deg,var(--cielo-1),var(--cielo-3) 70%, #dff4ec);
+  backdrop-filter:none;
+}
+.overlay[hidden]{display:none;}
+@keyframes aparecer{from{opacity:0}to{opacity:1}}
+
+/* Tarjeta de entrada (portón / nombre) */
+.tarjeta-entrada{
+  width:min(420px,92vw);
+  background:#fff; border-radius:28px; padding:30px 26px 28px;
+  text-align:center; box-shadow:var(--sombra);
+  animation:subir .4s cubic-bezier(.2,1,.3,1) both;
+}
+.entrada-flor{width:96px; height:120px; margin:0 auto 6px;}
+.entrada-flor svg{width:100%; height:100%; overflow:visible; animation:balanceo 5s ease-in-out infinite; transform-origin:50% 100%;}
+.titulo{font-size:clamp(24px,7vw,30px); margin:6px 0 4px; font-weight:700;}
+.sub{margin:0 0 18px; opacity:.72; font-size:15px; line-height:1.45;}
+
+.campo-texto{
+  width:100%; padding:14px 16px; font-family:inherit; font-size:16px;
+  border:2px solid #f0dfea; border-radius:14px; background:#fff7fb; color:var(--tinta);
+  transition:border-color .2s;
+}
+.campo-texto:focus{outline:none; border-color:var(--rosa);}
+.error{color:var(--rosa-osc); font-size:13.5px; margin:10px 2px 0;}
+
+/* Botones */
+.btn{
+  font-family:inherit; font-weight:700; font-size:16px; cursor:pointer;
+  border:0; border-radius:14px; padding:14px 20px; transition:transform .1s, box-shadow .2s, opacity .2s;
+}
+.btn:active{transform:scale(.97);}
+.btn--primario{
+  color:#fff; background:linear-gradient(180deg,#ff7ab4,#ff4f97);
+  box-shadow:0 10px 22px rgba(255,79,151,.36); margin-top:16px; width:100%;
+}
+.btn--suave{background:#f4e6ef; color:var(--rosa-osc);}
+.btn--ancho{width:100%; margin-top:18px;}
+
+/* Hoja modal (plantar / mensaje) */
+.hoja{
+  position:relative; width:min(440px,94vw);
+  max-height:88svh; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  background:#fff; border-radius:26px; padding:24px 22px 22px;
+  box-shadow:var(--sombra);
+  animation:subir .35s cubic-bezier(.2,1,.3,1) both;
+}
+.hoja-titulo{margin:2px 0 4px; font-size:21px; text-align:center;}
+.cerrar{
+  position:absolute; top:12px; right:12px; width:36px; height:36px; border-radius:50%;
+  border:0; background:#f4e6ef; color:var(--rosa-osc); font-size:15px; cursor:pointer;
+}
+.cerrar:active{transform:scale(.92);}
+.previo{width:108px; height:130px; margin:6px auto 8px;}
+.previo svg{width:100%; height:100%; overflow:visible; transform-origin:50% 100%; animation:balanceo 5s ease-in-out infinite;}
+
+.etq{font-size:13px; font-weight:700; opacity:.7; margin:14px 2px 8px; text-transform:uppercase; letter-spacing:.04em;}
+
+/* Selector de colores */
+.colores{display:flex; flex-wrap:wrap; gap:10px;}
+.swatch{
+  width:34px; height:34px; border-radius:50%; cursor:pointer; border:3px solid transparent;
+  box-shadow:0 2px 6px rgba(0,0,0,.14); transition:transform .12s;
+}
+.swatch[aria-pressed="true"]{border-color:var(--tinta); transform:scale(1.12);}
+.swatch:active{transform:scale(.92);}
+
+/* Selector de formas */
+.formas{display:grid; grid-template-columns:repeat(5,1fr); gap:8px;}
+.forma{
+  background:#fff7fb; border:2px solid #f0dfea; border-radius:14px; padding:6px 4px 4px; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:2px; transition:border-color .15s, background .15s;
+}
+.forma[aria-pressed="true"]{border-color:var(--rosa); background:#ffeef6;}
+.forma svg{width:100%; height:46px; overflow:visible;}
+.forma span{font-size:10.5px; opacity:.75; font-weight:600;}
+
+/* Mensaje */
+.area{
+  width:100%; padding:13px 15px; font-family:inherit; font-size:15px; line-height:1.5;
+  border:2px solid #f0dfea; border-radius:14px; background:#fff7fb; color:var(--tinta); resize:none;
+}
+.area:focus{outline:none; border-color:var(--rosa);}
+.contador{text-align:right; font-size:12px; opacity:.55; margin-top:4px;}
+
+.hoja-acciones{display:flex; gap:10px; margin-top:18px;}
+.hoja-acciones .btn{flex:1; margin-top:0;}
+
+/* Tarjeta de mensaje */
+.hoja--mensaje{text-align:center; padding-top:26px;}
+.mensaje-flor{width:104px; height:128px; margin:2px auto 6px;}
+.mensaje-flor svg{width:100%; height:100%; overflow:visible; transform-origin:50% 100%; animation:balanceo 5s ease-in-out infinite;}
+.mensaje-texto{
+  font-family:"Caveat",cursive; font-size:clamp(22px,6vw,28px); line-height:1.3;
+  color:var(--tinta); margin:6px 6px 14px; white-space:pre-wrap; word-break:break-word;
+}
+.mensaje-firma{font-size:13.5px; opacity:.6; margin:0;}
+
+@keyframes subir{from{opacity:0; transform:translateY(16px) scale(.97)}to{opacity:1; transform:none}}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width:380px){
+  .formas{gap:6px;}
+  .swatch{width:30px; height:30px;}
+  .fab{padding:13px 20px;}
+}
+@media (min-width:700px){
+  .flor svg{filter:drop-shadow(0 8px 8px rgba(40,70,40,.18));}
+}
+
+/* Respeta a quien prefiere menos movimiento */
+@media (prefers-reduced-motion:reduce){
+  .flor,.sol,.nube,.fab,.entrada-flor svg,.previo svg,.mensaje-flor svg{animation:none !important;}
+  .flor .brote{animation:none !important;}
+}

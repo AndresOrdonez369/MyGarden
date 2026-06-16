@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#4aa6ff" />
+  <title>Nuestro Jardín 🌸</title>
+  <meta name="description" content="Un jardín para cultivar cosas bonitas y darse amor." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===================== ESCENA / JARDÍN ===================== -->
+  <main class="escena" id="escena">
+    <div class="sol" aria-hidden="true"></div>
+    <div class="nube nube--1" aria-hidden="true"></div>
+    <div class="nube nube--2" aria-hidden="true"></div>
+    <div class="nube nube--3" aria-hidden="true"></div>
+
+    <svg class="colinas" viewBox="0 0 1440 460" preserveAspectRatio="none" aria-hidden="true">
+      <path class="colina colina--back"  d="M0,190 C 260,120 520,160 760,180 C 1000,200 1220,135 1440,168 L1440,460 L0,460 Z"/>
+      <path class="colina colina--mid"   d="M0,270 C 300,210 580,255 860,262 C 1090,268 1270,232 1440,255 L1440,460 L0,460 Z"/>
+      <path class="colina colina--front" d="M0,350 C 280,318 540,356 820,350 C 1080,345 1250,330 1440,346 L1440,460 L0,460 Z"/>
+    </svg>
+
+    <div id="campo" class="campo" aria-label="Jardín de flores"></div>
+  </main>
+
+  <!-- ===================== BARRA SUPERIOR ===================== -->
+  <header class="barra" id="barra" hidden>
+    <div class="pildora">
+      <span class="corazon">💗</span>
+      <span id="miNombre">Tú</span>
+      <span class="punto">·</span>
+      <span id="conteo">0 flores</span>
+    </div>
+    <button class="iconbtn" id="btnSalir" title="Salir del jardín" aria-label="Salir">↩</button>
+  </header>
+
+  <!-- ===================== BOTÓN PLANTAR ===================== -->
+  <button class="fab" id="btnPlantar" hidden>
+    <span class="fab-icono">🌱</span> Plantar una flor
+  </button>
+
+  <!-- ===================== PORTÓN (frase secreta) ===================== -->
+  <section class="overlay overlay--solido" id="porton">
+    <div class="tarjeta-entrada">
+      <div class="entrada-flor" id="portonFlor"></div>
+      <h1 class="titulo" id="tituloPorton">Nuestro Jardín</h1>
+      <p class="sub" id="subPorton">Escribe nuestra frase secreta para entrar 🌷</p>
+      <form id="formPorton" autocomplete="off" novalidate>
+        <input class="campo-texto" id="inputFrase" type="password" inputmode="text" placeholder="Frase secreta" aria-label="Frase secreta" />
+        <p class="error" id="errorFrase" hidden>Mmm, esa no es 🌱 Intenta otra vez.</p>
+        <button class="btn btn--primario" type="submit">Entrar al jardín</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== NOMBRE ===================== -->
+  <section class="overlay overlay--solido" id="nombre" hidden>
+    <div class="tarjeta-entrada">
+      <div class="entrada-flor" id="nombreFlor"></div>
+      <h1 class="titulo">¿Quién eres?</h1>
+      <p class="sub">Así firmaremos tus flores 💛</p>
+      <form id="formNombre" autocomplete="off" novalidate>
+        <input class="campo-texto" id="inputNombre" type="text" maxlength="24" placeholder="Tu nombre" aria-label="Tu nombre" />
+        <button class="btn btn--primario" type="submit">Entrar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== MODAL: PLANTAR ===================== -->
+  <section class="overlay" id="modalPlantar" hidden>
+    <div class="hoja" role="dialog" aria-modal="true" aria-label="Plantar una flor">
+      <button class="cerrar" data-cerrar="modalPlantar" aria-label="Cerrar">✕</button>
+      <h2 class="hoja-titulo">Plantar una flor</h2>
+      <div class="previo" id="previoFlor"></div>
+
+      <p class="etq">Color</p>
+      <div class="colores" id="colores"></div>
+
+      <p class="etq">Forma</p>
+      <div class="formas" id="formas"></div>
+
+      <p class="etq">Mensaje</p>
+      <textarea class="area" id="inputMensaje" maxlength="200" rows="3" placeholder="Una notita para ti..."></textarea>
+      <div class="contador"><span id="contMsg">0</span>/200</div>
+
+      <div class="hoja-acciones">
+        <button class="btn btn--suave" data-cerrar="modalPlantar">Cancelar</button>
+        <button class="btn btn--primario" id="btnSembrar">Plantar 🌷</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TARJETA: MENSAJE ===================== -->
+  <section class="overlay" id="tarjeta" hidden>
+    <div class="hoja hoja--mensaje" role="dialog" aria-modal="true">
+      <button class="cerrar" data-cerrar="tarjeta" aria-label="Cerrar">✕</button>
+      <div class="mensaje-flor" id="mensajeFlor"></div>
+      <p class="mensaje-texto" id="mensajeTexto"></p>
+      <p class="mensaje-firma" id="mensajeFirma"></p>
+      <button class="btn btn--primario btn--ancho" data-cerrar="tarjeta">Cerrar</button>
+    </div>
+  </section>
+
+  <!-- Supabase (si no hay credenciales en config.js, se ignora) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="flowers.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
