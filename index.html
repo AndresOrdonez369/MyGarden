@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#4aa6ff" />
+  <meta name="theme-color" content="#160a2b" />
   <title>Nuestro Jardín 🌸</title>
-  <meta name="description" content="Un jardín para cultivar cosas bonitas y darse amor." />
+  <meta name="description" content="Un jardín encantado para cultivar cosas bonitas y darse amor." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,19 +13,52 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- ===================== ESCENA / JARDÍN ===================== -->
+  <!-- ===================== ESCENA / BOSQUE ENCANTADO ===================== -->
   <main class="escena" id="escena">
-    <div class="sol" aria-hidden="true"></div>
-    <div class="nube nube--1" aria-hidden="true"></div>
-    <div class="nube nube--2" aria-hidden="true"></div>
-    <div class="nube nube--3" aria-hidden="true"></div>
+    <div class="luna" aria-hidden="true"></div>
+    <div class="haz haz--1" aria-hidden="true"></div>
+    <div class="haz haz--2" aria-hidden="true"></div>
+    <div class="haz haz--3" aria-hidden="true"></div>
+
+    <div class="orbe orbe--1" aria-hidden="true"></div>
+    <div class="orbe orbe--2" aria-hidden="true"></div>
+    <div class="orbe orbe--3" aria-hidden="true"></div>
+    <div class="orbe orbe--4" aria-hidden="true"></div>
+
+    <svg class="arbol arbol--izq" viewBox="0 0 220 340" aria-hidden="true">
+      <path d="M112 340 C 104 270, 96 222, 112 172 C 122 140, 106 120, 98 96" fill="none" stroke="#241640" stroke-width="13" stroke-linecap="round"/>
+      <path d="M112 214 C 134 204, 154 200, 172 190" fill="none" stroke="#241640" stroke-width="9" stroke-linecap="round"/>
+      <g class="copa">
+        <circle cx="98" cy="84" r="48" fill="#c8327f"/>
+        <circle cx="58" cy="112" r="35" fill="#9c2a6b"/>
+        <circle cx="132" cy="100" r="40" fill="#ff5bb0"/>
+        <circle cx="176" cy="172" r="30" fill="#b8327a"/>
+        <circle cx="92" cy="78" r="20" fill="#ff8fd0" opacity=".7"/>
+      </g>
+      <g fill="#ffe7a8"><circle cx="88" cy="76" r="2.5"/><circle cx="122" cy="98" r="2"/><circle cx="60" cy="116" r="2"/><circle cx="150" cy="120" r="2.3"/><circle cx="176" cy="170" r="2"/></g>
+    </svg>
+
+    <svg class="arbol arbol--der" viewBox="0 0 220 340" aria-hidden="true">
+      <path d="M112 340 C 104 270, 96 222, 112 172 C 122 140, 106 120, 98 96" fill="none" stroke="#1d1438" stroke-width="13" stroke-linecap="round"/>
+      <g class="copa">
+        <circle cx="98" cy="86" r="46" fill="#7a2f9e"/>
+        <circle cx="60" cy="110" r="33" fill="#5e2a8a"/>
+        <circle cx="134" cy="102" r="38" fill="#a855e0"/>
+        <circle cx="96" cy="80" r="18" fill="#c79bff" opacity=".7"/>
+      </g>
+      <g fill="#bff6ff"><circle cx="90" cy="80" r="2.4"/><circle cx="126" cy="100" r="2"/><circle cx="64" cy="112" r="2"/></g>
+    </svg>
 
     <svg class="colinas" viewBox="0 0 1440 460" preserveAspectRatio="none" aria-hidden="true">
       <path class="colina colina--back"  d="M0,190 C 260,120 520,160 760,180 C 1000,200 1220,135 1440,168 L1440,460 L0,460 Z"/>
+      <path class="rim rim--back"  d="M0,190 C 260,120 520,160 760,180 C 1000,200 1220,135 1440,168"/>
       <path class="colina colina--mid"   d="M0,270 C 300,210 580,255 860,262 C 1090,268 1270,232 1440,255 L1440,460 L0,460 Z"/>
+      <path class="rim rim--mid"   d="M0,270 C 300,210 580,255 860,262 C 1090,268 1270,232 1440,255"/>
       <path class="colina colina--front" d="M0,350 C 280,318 540,356 820,350 C 1080,345 1250,330 1440,346 L1440,460 L0,460 Z"/>
+      <path class="rim rim--front" d="M0,350 C 280,318 540,356 820,350 C 1080,345 1250,330 1440,346"/>
     </svg>
 
+    <div class="particulas" id="particulas" aria-hidden="true"></div>
     <div id="campo" class="campo" aria-label="Jardín de flores"></div>
   </main>
 
@@ -35,9 +68,12 @@
       <span class="corazon">💗</span>
       <span id="miNombre">Tú</span>
       <span class="punto">·</span>
-      <span id="conteo">0 flores</span>
+      <span id="conteo">0</span>
     </div>
-    <button class="iconbtn" id="btnSalir" title="Salir del jardín" aria-label="Salir">↩</button>
+    <div class="acciones">
+      <button class="iconbtn" id="btnAudio" title="Música" aria-label="Activar o silenciar música"></button>
+      <button class="iconbtn" id="btnSalir" title="Salir del jardín" aria-label="Salir">↩</button>
+    </div>
   </header>
 
   <!-- ===================== BOTÓN PLANTAR ===================== -->
@@ -45,7 +81,7 @@
     <span class="fab-icono">🌱</span> Plantar una flor
   </button>
 
-  <!-- ===================== PORTÓN (frase secreta) ===================== -->
+  <!-- ===================== PORTÓN ===================== -->
   <section class="overlay overlay--solido" id="porton">
     <div class="tarjeta-entrada">
       <div class="entrada-flor" id="portonFlor"></div>
@@ -78,17 +114,13 @@
       <button class="cerrar" data-cerrar="modalPlantar" aria-label="Cerrar">✕</button>
       <h2 class="hoja-titulo">Plantar una flor</h2>
       <div class="previo" id="previoFlor"></div>
-
       <p class="etq">Color</p>
       <div class="colores" id="colores"></div>
-
       <p class="etq">Forma</p>
       <div class="formas" id="formas"></div>
-
       <p class="etq">Mensaje</p>
       <textarea class="area" id="inputMensaje" maxlength="200" rows="3" placeholder="Una notita para ti..."></textarea>
       <div class="contador"><span id="contMsg">0</span>/200</div>
-
       <div class="hoja-acciones">
         <button class="btn btn--suave" data-cerrar="modalPlantar">Cancelar</button>
         <button class="btn btn--primario" id="btnSembrar">Plantar 🌷</button>
@@ -107,7 +139,9 @@
     </div>
   </section>
 
-  <!-- Supabase (si no hay credenciales en config.js, se ignora) -->
+  <!-- Música de fondo (sube tu archivo audio.mp3 junto a este index.html) -->
+  <audio id="audioBg" src="audio.mp3" loop preload="auto"></audio>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="config.js"></script>
   <script src="flowers.js"></script>
