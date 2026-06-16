@@ -19,6 +19,6 @@ window.JARDIN_CONFIG = {
   //    - Cuando pegues tus datos de Supabase: el jardín se vuelve
   //      COMPARTIDO y ambos ven las mismas flores desde cualquier lado.
   //    La guía paso a paso está en el archivo README.md
-  supabaseUrl: "sb_publishable_d3HDb2rHya6nepFCDWACxw_hJM5gxsf",      // ej: https://abcdefgh.supabase.co
+  supabaseUrl: "https://fmcjgzgtfzqqfepxeytt.supabase.co",      // ej: https://abcdefgh.supabase.co
   supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtY2pnemd0ZnpxcWZlcHhleXR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1NzA1NDIsImV4cCI6MjA5NzE0NjU0Mn0.6aMDcgNmr11vxUVJsjFTWiwQzL7IM6CUiBYOXwL8eDE",  // la clave "anon public" de tu proyecto
 };
